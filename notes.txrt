@@ -198,4 +198,16 @@ it allow to bring state to any somponent, that way we don't need to use prop dri
     run build folder, see which localhost,
         serve -s build
         ctrl-c
-    
+    commit to github
+        create local repo
+            git init
+            git add .
+            git commit -m 'first commit'
+        create github repo
+            create new repo "feedbackapp"
+                git remote add origin https://github.com/fruit13ok/feedbackapp.git
+                git branch -M main
+                git push -u origin main
+    create netlify account
+        https://www.netlify.com/
+        
