@@ -1,0 +1,201 @@
+learn React
+
+-begin by install node and select a project folder:
+    -install nodejs, just go https://nodejs.org/en/ download it, double click to install.
+    -go to any folder, follow https://reactjs.org/docs/create-a-new-react-app.html to create React app
+
+-open in VSCode
+    -in terminal type
+        code .
+
+-create React app (some troubleshooting)
+    -this commands will create React app
+        npx create-react-app feedback-app
+            or
+        npx create-react-app feedback-app --use-npm     //use npm instead of yarn
+        cd feedback-app
+        npm start
+    -if not working it will give you error message and suggestion, such as uninstall old version of React
+        -uninstall old version of React
+            npm install -g create-react-app
+
+-sample home page on localhost:3000
+    -after npm start a localhost:3000 page popup
+
+-project folders / files
+    -public/index.html
+        html page
+        whole page is written in javascript not html
+        -in index.html "root" is where the page is written
+            <div id="root"></div>
+        -change page title
+            <title>React App</title> to <title>Feedback UI</title>
+        -public folder also has images
+    -src/
+        delete everything in src folder, it will say index.js missing, we will recreate them
+        -index.js is the entry point for React
+            while is running and delected those files, page have error
+        -recrease index.js
+            now the page work again, but it is blank
+        
+///////////////////////////////////////////////////////////////////////////
+
+-import / export
+import object/function from other files
+export object/function allow other files to import it
+
+-JSX
+javascript xml
+use javascript to build html element
+
+-component
+like each costum made html elements
+use JSX
+use prop and state to manage data
+in browser, inspect, I have installed React dev tool, it shows react components, component's prop and hook state
+
+
+// React manage data by prop and state
+
+-prop
+prop pass into a component,
+prop ONLY pass down from parent component to child component, 
+we don't want prop (data) to change,
+like argument to a function, mostly use like a variable just for display,
+like pass in data to constructor to initialize, those data should be static,
+
+-state
+CAN NOT PASS state, ONLY handle data internally,
+use for state (data) that changes,
+like form component, data collect from user will be differ, and need to be update, 
+state handle/update inside a component, 
+change state will rerender the app
+
+state is immutable, we can't just pudh on new item to it, we need to make a copy of it to set it
+
+there are component level state, app level globel state
+-component level state
+just associate with that 1 component, no other component need to use that data
+-app level globel state
+data need to be use by multiple components
+
+    state has:
+    // leftside is destructure
+    [stateName_getter, function_to_update_state_setter] = useState(inititalize_value)
+
+-useState
+it is a hook, use to set state
+
+// change state
+
+
+//////////////////////////////////////////////////////////////
+
+npm i react-icons
+
+this included many style library: fontawsome, materialui, bootstrap, ...
+
+//////////////////////////////////////////////////////////////
+event and prop drilling
+//////////////////////////////////////////////////////////////
+
+-prop (prop drilling)
+we learned that parent element use prop to pass data down to children,
+for children to pass data up to parent, parent need to create a way for childrento do so,
+by pass prop as function that takes perenmeter:
+App.js pass function down -> FeedbackList.jsx pass function down -> FeedbackItem.jsx event invoke the function
+
+-context api
+peop drilling is will have a lot of work in a very deep component chain, context api can make thing easy,
+it allow to bring state to any somponent, that way we don't need to use prop drilling
+
+
+-form input and state
+
+-real-time vaildation
+-add feedback
+    use prop and state to update app level state
+    // use uuid to generate unique id
+    npm i uuid
+
+-fade animation with Framer Motion (optional)
+    npm i framer-motion@4.1.17      //@4.1.17   mean to install version 4.1.17
+
+-create routes (React router 6)
+    npm i react-router-dom
+    use route to navigate to other web pages use BrowserRouter, Route, and Routes
+        now only navigate by type in url
+
+    -to use route import those pages (components) into App.js
+        see App.jsc for formet of using Route
+        wrap App.js return components inside Router
+        -use <></> (fragment), path, exact path, and element
+
+-create Links to our Routes
+    instead of just typing in url we can now click a link to navigate
+    don't use <a> tag for internal link navigation, it will refresh the page that takes more resource,
+    only use <a> tag for off site link
+
+-NavLink and useParams
+    NavLink holding a class for active links, it is a easy way to add style to active link 
+    useParams get parameter from after the url/, it is a React Hook
+        /post/:id/:name
+        params.id
+        params.name
+
+-Navigate and Nested Route
+    Navigate used to call (redirect)
+    UseNavigate is a Hook change to other page, mostly use in functional component
+    Nested Route if parent component is path and child component is a path, 
+    we can use Nested Route to append to url
+        in App.js   <Route path="/post*" element={<Post />} />
+        in Post.jsx <Route path="/show" element={<h1>hello</h1>} />
+    only if nested route under a parent component, other wise put all full route in App.js
+
+-Context and Provider
+    we want to use global state instead of put so many data in App.js
+    -Context pass data through the component tree without passing props down every level
+    -Provider, Context need Provider to wrap "everything" in the component, like router wraps routes, 
+    state or function pass in through "value" object, value use useState hook or reducer later on,
+    return the state for other component to access,
+    in app.js wrap return compoments in provider
+
+-get global state with useContext hook
+    -useContext hook to bring state from context like FeedbackContext.js to component,
+    change FeedbackList.jsx, FeedbackStats, and App.js, 
+    when save our change data now comes from FeedbackContext.js no longer from App.js as prop,
+    no need propTypes, App.js don't need to pass in prop, 
+        import { useContext } from "react";
+        import FeedbackContext from "../context/FeedbackContext";
+
+-move function to context
+    change FeedbackList.jsx, FeedbackForm, FeedbackItem, and App.js, 
+    pass function to "value" object like did in state,
+    move deleteFeedback and addFeedback function from App.js to context
+
+-edit feedback event
+    change FeedbackItem, FeedbackContext, 
+    global state feedbackEdit, function editFeedback,
+    whenever an item clicked will have that item info inside global state feedbackEdit
+
+-side effects with useEffect
+    change FeedbackContext.jsx, FeedbackForm.jsx, and RatingSelect.jsx
+    on click edit icon, get element data, and fill them to form,
+    when action like click effacts data to update is call "effect" or "side effect",
+    use "useEffect" hook to deal with "side effect",
+
+-update feedback item
+    change FeedbackContext.jsx, FeedbackForm.jsx, and RatingSelect.jsx
+    RatingSelect is another component not in the form, so we work on that
+
+-deploy to Netlify
+    first stop the server, 
+        ctrl-c
+    create a optimized build version of the project,
+        npm run build
+    install serve to run the build file,
+        npm i -g serve
+    run build folder, see which localhost,
+        serve -s build
+        ctrl-c
+    
